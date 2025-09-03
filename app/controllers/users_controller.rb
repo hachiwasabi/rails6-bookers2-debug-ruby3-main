@@ -8,29 +8,33 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    @user = User.all
     @book = Book.new
   end
 
   def edit
-    @users = User.all
     @user = User.find(params[:id])
-    unless @user.id == current_user.id
-      redirect_to user_path(current_user)
-    end
   end
 
   def update
     @user = User.find(params[:id])
-    unless @user.id == current_user.id
-      redirect_to user_path(current_user)
-    end
     if @user.update(user_params)
-      redirect_to user_path(@user.id), notice: "You have updated user successfully."
+      redirect_to user_path(@user), notice: "You have updated user successfully."
     else
       render :edit
     end
   end
+
+  def followers
+    @user = User.find(params[:id])
+    @users = @user.followers
+  end
+
+  def following
+    @user = User.find(params[:id])
+    @users = @user.following
+  end
+  
 
   private
 
