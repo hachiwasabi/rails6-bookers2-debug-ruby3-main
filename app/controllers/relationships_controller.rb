@@ -2,19 +2,25 @@ class RelationshipsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    @user = User.find(params[:followed_id])
-    current_user.following << @user
-    redirect_to request.referer, notice: "ユーザーをフォローしました"
-  rescue ActiveRecord::RecordInvalid
-    redirect_to request.referer, notice: "フォローに失敗しました"
+    user = User.find(params[:user_id])
+    current_user.follow(user)
+		redirect_to request.referer
   end
-
+  
   def destroy
-    @user = Relationship.find(params[:id]).followed
-    current_user.following.delete(@user)
-    redirect_to request.referer, notice: "フォローを解除しました"
+    user = User.find(params[:user_id])
+    current_user.unfollow(user)
+		redirect_to request.referer
+  end
+  
+  def followings
+    user = User.find(params[:user_id])
+		@users = user.followings
   end
 
-
-
+  def followers
+    user = User.find(params[:user_id])
+		@users = user.followers
+  end
+  
 end
