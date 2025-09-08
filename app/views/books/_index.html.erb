@@ -20,26 +20,7 @@
           <%= render "favorites/btn", book: book %>
         </td>
         <td><%= render "book_comments/counter", book: book %></td>
-        <td>
-        <div id="post_raty_<%= book.id %>" data-score="<%= book.rate || 0 %>"></div>
-
-        <script>
-         document.addEventListener("turbolinks:load", function(){
-          let elem = document.querySelectorALL('[id^="post_raty_"]').forEach(function(elem){
-            let opt = {
-              starOn: "<%= asset_path('star-on.png') %>",
-              starOff: "<%= asset_path('star-off.png') %>",
-              starHalf: "<%= asset_path('star-half.png') %>",
-              score: elem.dataset.score || 0,
-              click: function(score){
-                console.log("選択されたスコア:", score);
-              }
-            };
-            raty(elem, opt);
-          });
-         });
-        </script>
-        </td>
+        <td><%= render "books/static_rate", book: book %></td>
       </tr>
     <% end %>
   </tbody>

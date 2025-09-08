@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   resources :books, only: [:index,:show,:edit,:create,:destroy,:update] do
     resources :book_comments, only: [:create, :destroy]
     resource :favorites, only: [:create,:destroy]
-    post 'rate', on: :member
   end
   
   resources :users, only: [:index,:show,:edit,:update] do

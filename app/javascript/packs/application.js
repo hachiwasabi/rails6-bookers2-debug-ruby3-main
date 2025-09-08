@@ -3,36 +3,27 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-  import Rails from "@rails/ujs"
-  import Turbolinks from "turbolinks"
-  import * as ActiveStorage from "@rails/activestorage"
-  import "channels"
-  
-  
-  import "bootstrap"
-  import "../stylesheets/application"
-  import "jquery"
-  import "popper.js"
+import Rails from "@rails/ujs"
+import Turbolinks from "turbolinks"
+import * as ActiveStorage from "@rails/activestorage"
+import "channels"
+import jQuery from "jquery"
+import raty from 'raty-js'
+import "popper.js"
+import "bootstrap"
 
-  import Raty from "raty-js";
+import "../stylesheets/application" 
 
-  document.addEventListener("turbolinks:load", function(){
-    document.querySelectorAll('[id^="post_raty_"]').forEach(function(elem){
-      const score = parseFloat(elem.dataset.score) || 0;
-      new Raty(elem, {
-        score: score,
-        starOn:  "/assets/star-on.png",
-        starOff: "/assets/star-off.png",
-        starHalf: "/assets/star-half.png",
-        click: function(score) {
-          console.log("選択されたスコア:", score);
-        }
-      }).init();
-    });
-  });
+Rails.start()
+Turbolinks.start()
+ActiveStorage.start()
 
+global.$ = jQuery;
+window.$ = jQuery;
 
-  
-  Rails.start()
-  Turbolinks.start()
-  ActiveStorage.start()
+import Raty from "raty.js"
+window.raty = function(elem,opt) {
+  let raty =  new Raty(elem,opt)
+  raty.init();
+  return raty;
+}

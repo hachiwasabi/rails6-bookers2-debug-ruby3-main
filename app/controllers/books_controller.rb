@@ -10,6 +10,15 @@ class BooksController < ApplicationController
   def index
     @books = Book.all
     @book = Book.new
+    if params[:latest]
+      @books = Book.latest
+    #elsif params[:old]
+      #@books = Book.old
+    elsif params[:rate_count]
+      @books = Book.rate_count
+    else
+      @books = Book.all
+    end
   end
 
   def create
@@ -41,19 +50,10 @@ class BooksController < ApplicationController
     redirect_to books_path
   end
 
-  def rate
-    @book = Book.find(params[:id])
-    if @book.update(rate: params[:rate])
-      render json: { success: true, rate: @book.rate}
-    else
-      render json: { success: false},status: :unprocessable_entity
-    end
-  end
-
   private
 
   def book_params
-    params.require(:book).permit(:title, :body)
+    params.require(:book).permit(:title, :body, :rate)
   end
 
   def ensure_correct_user
