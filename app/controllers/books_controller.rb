@@ -41,6 +41,15 @@ class BooksController < ApplicationController
     redirect_to books_path
   end
 
+  def rate
+    @book = Book.find(params[:id])
+    if @book.update(rate: params[:rate])
+      render json: { success: true, rate: @book.rate}
+    else
+      render json: { success: false},status: :unprocessable_entity
+    end
+  end
+
   private
 
   def book_params
